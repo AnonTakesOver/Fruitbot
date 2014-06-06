@@ -8,6 +8,7 @@ local badFruits = {}
 local rareFruit = { tracking = false, item = 0, exists = false, x = 0, y = 0 }
 local target = { acquired = false, x = 0, y = 0, item = 0, plyDistance = 99, oppDistance = 99 }
 
+-- I like to create this in any code I do, it's just useful, even though I won't probably use it in this program, it's good to have it when I feel lazy.
 function HasValue( tbl, v )
 	for key,value in pairs(tbl) do
 		if value == v then return true end
