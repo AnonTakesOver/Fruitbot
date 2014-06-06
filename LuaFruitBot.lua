@@ -45,6 +45,7 @@ function RankFruitTable( fruits )
 		oppNeeded = AmountNeededToWin( v.item, get_opponent_item_count(v.item) )
 		if plyDistance < oppDistance then v.rank = v.rank + 10 end
 		if plyNeeded < oppNeeded then v.rank = v.rank + 10 end
+		if plyNeeded == 1 then v.rank = v.rank + 10 end
 		for dis = 1, 10 do
 			if plyDistance <= dis then v.rank = v.rank + 1 end
 		end
