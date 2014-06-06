@@ -251,6 +251,8 @@ function make_move()
 	end
 	
 	-- Check to see if the opponent is going for the targeted fruit of ours
+	-- Coming soon.
+	
 	
 	-- Go to best fruit
 	local tempFunc = BestFruit()
