@@ -45,8 +45,9 @@ function RankFruitTable( fruits )
 		oppNeeded = AmountNeededToWin( v.item, get_opponent_item_count(v.item) )
 		if plyDistance < oppDistance then v.rank = v.rank + 10 end
 		if plyNeeded < oppNeeded then v.rank = v.rank + 10 end
-		if plyDistance <= 5 then v.rank = v.rank + 5 end
-		if plyDistance <= 10 then v.rank = v.rank + 5 end
+		for dis = 1, 10 do
+			if plyDistance <= dis then v.rank = v.rank + 1 end
+		end
 		if rareFruit.exists then if v.item == rareFruit.item then v.rank = v.rank + 20 end end 
 	end
 	return fruitTable
@@ -142,9 +143,9 @@ function BestFruit()
 	end
 	trace("Best fruit is "..highestRank.item.." with a ranking of "..highestRank.rank)
 	if highestRank.x < plyX then trace("Best fruit is to the left, moving left"); return WEST end
-	if highestRank.y < plyX then trace("Best fruit is above, moving up") return SOUTH end
+	if highestRank.y < plyX then trace("Best fruit is above, moving up") return NORTH end
 	if highestRank.x > plyX then trace("Best fruit is to the right, moving right"); return EAST end
-	if highestRank.y > plyX then trace("Best fruit is above, moving up"); return NORTH end
+	if highestRank.y > plyX then trace("Best fruit is below, moving down"); return SOUTH end
 	trace("No movment..")
 end
 
