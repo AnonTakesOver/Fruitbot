@@ -164,6 +164,7 @@ function WorthGetting( item )
 		local oppDistance = Distance(oppX, rareFruit.x, oppY, rareFruit.y)
 		-- Firstly, if we are closer to it then our opponent by 2 squares (1 turn to pick up fruit, so we stay ahead) then pick it up.
 		if plyDistance < oppDistance - 1 then
+			trace("Enough distance to take MINE: "..plyDistance .. " His: ".. oppDistance)
 			return TAKE 
 		end
 		-- Okay, so they are chasing the fruit too, we need a fucking good reason to eat the fruit now.
@@ -182,7 +183,7 @@ function WorthGetting( item )
 		-- If they have more of the item, and if they take it, they will win the category, we take it... unless they still win with 0.5 of the item
 		local plyNeeded = AmountNeededToWin( item, plyAmount )
 		local oppNeeded = AmountNeededToWin( item, oppAmount )
-		if plyNeeded > oppNeeded and oppNeeded > 1 then return TAKE end
+		if plyNeeded > oppNeeded and oppNeeded == 1 then return TAKE end
 		return false
 	end
 	return TAKE
