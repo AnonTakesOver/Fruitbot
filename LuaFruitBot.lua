@@ -114,9 +114,9 @@ function BestFruit()
 		if plyDistance <= oppDistance then
 			rareFruit.tracking = true
 			if rareFruit.x < plyX then trace("Rare fruit is to the left, moving left"); return WEST end
-			if rareFruit.y < plyX then trace("Rare fruit is above, moving up") return NORTH end
+			if rareFruit.y < plyX then trace("Rare fruit is below, moving down") return SOUTH end
 			if rareFruit.x > plyX then trace("Rare fruit is to the right, moving right"); return EAST end
-			if rareFruit.y > plyX then trace("Rare fruit is below, moving down"); return SOUTH end
+			if rareFruit.y > plyX then trace("Rare fruit is above, moving up"); return NORTH end
 		end
 		rareFruit.tracking = false
 	end
@@ -141,9 +141,10 @@ function BestFruit()
 	end
 	trace("Best fruit is "..highestRank.item.." with a ranking of "..highestRank.rank)
 	if highestRank.x < plyX then trace("Best fruit is to the left, moving left"); return WEST end
-	if highestRank.y < plyX then trace("Best fruit is above, moving up") return NORTH end
+	if highestRank.y < plyX then trace("Best fruit is above, moving up") return SOUTH end
 	if highestRank.x > plyX then trace("Best fruit is to the right, moving right"); return EAST end
-	if highestRank.y > plyX then trace("Best fruit is below, moving down"); return SOUTH end
+	if highestRank.y > plyX then trace("Best fruit is above, moving up"); return NORTH end
+	trace("No movment..")
 end
 
 function WorthGetting( item )
@@ -259,7 +260,6 @@ function make_move()
 	-- Go to best fruit
 	local tempFunc = BestFruit()
 	if tempFunc then return tempFunc end
-	
 	
 end
 
