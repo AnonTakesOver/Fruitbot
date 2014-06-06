@@ -10,4 +10,4 @@ I have kinda slacked off right now for handling the opponent, I will add opponen
 
 I am planning to add opponent prediction and to find the best region of fruit, aswell as a chess like bot, predicting the outcomes of each move upto 20 moves.
 
-Suggestions for the fruit ranking welcomed, I am still working out the best way.
+Suggestions for the fruit ranking welcomed, I am still working out the best way and just implemented a base.
