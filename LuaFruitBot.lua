@@ -140,6 +140,10 @@ function BestFruit()
 		end
 	end
 	trace("Best fruit is "..highestRank.item.." with a ranking of "..highestRank.rank)
+	if highestRank.x < plyX then trace("Best fruit is to the left, moving left"); return WEST end
+	if highestRank.y < plyX then trace("Best fruit is above, moving up") return NORTH end
+	if highestRank.x > plyX then trace("Best fruit is to the right, moving right"); return EAST end
+	if highestRank.y > plyX then trace("Best fruit is below, moving down"); return SOUTH end
 end
 
 function WorthGetting( item )
@@ -251,8 +255,6 @@ function make_move()
 	end
 	
 	-- Check to see if the opponent is going for the targeted fruit of ours
-	-- Coming soon.
-	
 	
 	-- Go to best fruit
 	local tempFunc = BestFruit()
