@@ -183,6 +183,7 @@ function WorthGetting( item )
 		local plyNeeded = AmountNeededToWin( item, plyAmount )
 		local oppNeeded = AmountNeededToWin( item, oppAmount )
 		if plyNeeded > oppNeeded and oppNeeded > 1 then return TAKE end
+		return false
 	end
 	return TAKE
 end
