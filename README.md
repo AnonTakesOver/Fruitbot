@@ -15,3 +15,4 @@ I am planning to add opponent prediction so I can cock block and to find the bes
 Also going to add a score system, so I can see if I should try to maximize the cock blocking,
 
 Suggestions for the fruit ranking welcomed, I am still working out the best way and just implemented a base.
+Going to make it so it also adds a rank to the fruit if another fruit is near it
