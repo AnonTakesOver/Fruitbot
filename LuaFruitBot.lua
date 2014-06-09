@@ -20,6 +20,29 @@ function Distance( x1, x2, y1, y2 )
 	return math.abs(x1 - x2) + math.abs(y1 - y2)
 end
 
+function AmountsToWin()
+	local amount = get_number_of_item_types()
+	if amount % 2 == 0 then
+		local evenHalf = (amount / 2) + 1
+		return evenHalf
+	else
+		local oddHalf = math.ceil(amount / 2)
+		return oddHalf 
+	end
+end
+
+function GetScore( isPly )
+	local amountToWin = AmountsToWin()
+	local totalItems = get_number_of_item_types()
+	local score = 0
+	for fruit = 1, totalItems do
+		if AmountNeededToWin( fruit, isPly and get_my_item_count(fruit) or get_opponent_item_count(fruit) ) <= 0 then
+			score = score + 1
+		end
+	end
+	return score
+end
+
 function AmountNeededToWin( item, amount )
 	local itemAmount = get_total_item_count(item)
 	if itemAmount % 2 == 0 then			
@@ -35,8 +58,11 @@ function RankFruitTable( fruits )
 	local fruitTable = fruits
 	local plyX = get_my_x()
 	local plyY = get_my_y()
+	local plyScore = GetScore( true )
 	local oppX = get_opponent_x()
 	local oppY = get_opponent_x()
+	local oppScore = GetScore( false )
+	local amountToWin = AmountsToWin()
 	for k,v in pairs(fruitTable) do
 		v.rank = 0
 		plyDistance = Distance(plyX, v.x, plyY, v.y )
@@ -47,9 +73,11 @@ function RankFruitTable( fruits )
 		if plyNeeded < oppNeeded then v.rank = v.rank + 10 end
 		if plyNeeded == 1 then v.rank = v.rank + 10 end
 		for dis = 1, 10 do
-			if plyDistance <= dis then v.rank = v.rank + 1 end
+			if plyDistance <= dis then v.rank = v.rank + 3 end
 		end
 		if rareFruit.exists then if v.item == rareFruit.item then v.rank = v.rank + 20 end end 
+		if plyNeeded == 1 and plyScore + 1 >= amountToWin then v.rank = v.rank + 50 end
+		if oppNeeded == 1 and oppScore + 1 >= amountToWin then v.rank = v.rank + 50 end
 	end
 	return fruitTable
 end
