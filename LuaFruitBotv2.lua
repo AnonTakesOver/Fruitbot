@@ -72,7 +72,7 @@ function RankFruitTable( fruits )
 		v.log = ""
 		plyDistance = Distance(plyX, v.x, plyY, v.y )
 		oppDistance = Distance(oppX, v.x, oppY, v.y )
-		--trace("DEBUG: MyX = "..plyX.. " MyY = "..plyY.. " OppX = "..oppX.." OppY = " .. oppY .. " item x = ".. v.x .. " item y = " .. v.y )
+		trace("DEBUG: MyX = "..plyX.. " MyY = "..plyY.. " OppX = "..oppX.." OppY = " .. oppY .. " item x = ".. v.x .. " item y = " .. v.y )
 		plyNeeded = AmountNeededToWin( v.item, get_my_item_count(v.item) )
 		oppNeeded = AmountNeededToWin( v.item, get_opponent_item_count(v.item) )
 		if get_total_item_count(v.item) == 3 then v.log = v.log .. "Adding 15 because it's a banana! \n"; v.rank = v.rank + 15 end
@@ -168,18 +168,22 @@ function BestFruit()
 		the amount needed to win for me and the amount needed to win for the opponent.
 	]]--
 	local rankedFruits = RankFruitTable( fruits )
-	local highestRank = { rank = 0, item = 0, x = 0, y = 0 }
+	local highestRank = { rank = 0, item = 0, x = 0, y = 0, log = "" }
 	for k,v in pairs( rankedFruits ) do
 		trace(v.item.." at " .. v.x .. ":".. v.y .." has a rank of ".. v.rank)
-		trace(v.item, v.log)
+		--trace(v.item, v.log)
 		if v.rank > highestRank.rank then
 			highestRank.rank = v.rank
 			highestRank.item = v.item
 			highestRank.x = v.x
 			highestRank.y = v.y
+			highestRank.log = v.log
 		end
 	end
 	trace("Best fruit is "..highestRank.item.." with a ranking of "..highestRank.rank)
+	trace("Log of fruit:")
+	trace(highestRank.log)
+	if highestRank.item == rareFruit.item then rareFruit.tracking = true end
 	if highestRank.x < plyX then trace("Best fruit is to the left, moving left"); return WEST end
 	if highestRank.y < plyY then trace("Best fruit is above, moving up") return NORTH end
 	if highestRank.x > plyX then trace("Best fruit is to the right, moving right"); return EAST end
