@@ -72,17 +72,19 @@ function RankFruitTable( fruits )
 		v.log = ""
 		plyDistance = Distance(plyX, v.x, plyY, v.y )
 		oppDistance = Distance(oppX, v.x, oppY, v.y )
+		--trace("DEBUG: MyX = "..plyX.. " MyY = "..plyY.. " OppX = "..oppX.." OppY = " .. oppY .. " item x = ".. v.x .. " item y = " .. v.y )
 		plyNeeded = AmountNeededToWin( v.item, get_my_item_count(v.item) )
 		oppNeeded = AmountNeededToWin( v.item, get_opponent_item_count(v.item) )
-		if plyDistance < oppDistance then v.log = v.log.."Adding 10 because "..plyDistance.." < "..oppDistance.."; \n "; v.rank = v.rank + 10 end
-		if plyNeeded < oppNeeded then v.log = v.log .. "Adding 10 because "..plyNeeded.." < "..oppNeeded.."; \n "; v.rank = v.rank + 10 end
-		if plyNeeded == 1 then v.log = v.log.."Adding 10 because only need one more to win it; \n "; v.rank = v.rank + 10 end
+		if get_total_item_count(v.item) == 3 then v.log = v.log .. "Adding 15 because it's a banana! \n"; v.rank = v.rank + 15 end
+		if plyDistance < oppDistance then v.log = v.log.."Adding 10 because "..plyDistance.." < "..oppDistance.."; \n"; v.rank = v.rank + 10 end
+		if plyNeeded < oppNeeded then v.log = v.log .. "Adding 10 because "..plyNeeded.." < "..oppNeeded.."; \n"; v.rank = v.rank + 10 end
+		if plyNeeded == 1 then v.log = v.log.."Adding 10 because only need one more to win it; \n"; v.rank = v.rank + 10 end
 		for dis = 1, 10 do
-			if plyDistance <= dis then v.log = v.log.."Adding 3 because distance is less then "..dis.."; \n "; v.rank = v.rank + 3 end
+			if plyDistance <= dis then v.log = v.log.."Adding 3 because distance is less then "..dis.."; \n"; v.rank = v.rank + 3 end
 		end
-		if rareFruit.exists then if v.item == rareFruit.item then v.log = v.log.."Adding 20 because rare fruit bonus; \n "; v.rank = v.rank + 20 end end 
-		if plyNeeded == 1 and plyScore + 1 >= amountToWin then v.log = v.log .. "Adding 50 because last fruit to win; \n "; v.rank = v.rank + 50 end
-		if oppNeeded == 1 and oppScore + 1 >= amountToWin then v.log = v.log .. "Adding 50 because last fruit to win for opponent; \n "; v.rank = v.rank + 50 end
+		if rareFruit.exists then if v.item == rareFruit.item then v.log = v.log.."Adding 20 because rare fruit bonus; \n"; v.rank = v.rank + 20 end end 
+		if plyNeeded == 1 and plyScore + 1 >= amountToWin then v.log = v.log .. "Adding 50 because last fruit to win; \n"; v.rank = v.rank + 50 end
+		if oppNeeded == 1 and oppScore + 1 >= amountToWin then v.log = v.log .. "Adding 50 because last fruit to win for opponent; \n"; v.rank = v.rank + 50 end
 		v.log = v.log .. " \n "
 	end
 	return fruitTable
