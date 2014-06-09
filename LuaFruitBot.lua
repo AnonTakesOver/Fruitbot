@@ -186,6 +186,7 @@ function WorthGetting( item )
 	
 	if badFruits[item] then return false end -- If it's a bad fruit, don't bother doing any checks.
 	if item == rareFruit.item then rareFruit.exists = false; rareFruit.tracking = false; return TAKE end 
+	trace("Tracking rare fruit: "..tostring(rareFruit.tracking))
 	if rareFruit.tracking then
 		-- If we are tracking the rare fruit, we better have a good excuse for picking up an item.
 		local plyDistance = Distance(plyX, rareFruit.x, plyY, rareFruit.y)
@@ -195,6 +196,7 @@ function WorthGetting( item )
 			trace("Enough distance to take MINE: "..plyDistance .. " His: ".. oppDistance)
 			return TAKE 
 		end
+		trace("Checking for good reason to take fruit")
 		-- Okay, so they are chasing the fruit too, we need a fucking good reason to eat the fruit now.
 		local plyAmount = get_my_item_count(item)
 		local oppAmount = get_opponent_item_count(item)
@@ -214,6 +216,7 @@ function WorthGetting( item )
 		if plyNeeded > oppNeeded and oppNeeded == 1 then return TAKE end
 		return false
 	end
+	trace("All checks failed, taking.")
 	return TAKE
 end
 
@@ -244,11 +247,13 @@ end
 
 function CheckForEvil()
 	local board = get_board();
+	local foundFruitID = false
 	for x = 0, WIDTH - 1 do
 		for y = 0, HEIGHT - 1 do
 			local field = board[x][y]
 			if has_item(field) > 0 then
 				local item = has_item(field)
+				if item == rareFruit.item then foundFruitID = true end 
 				local itemAmount = get_total_item_count(item)
 				local plyAmount =  get_my_item_count(item)
 				local oppAmount =  get_opponent_item_count(item)
@@ -261,6 +266,9 @@ function CheckForEvil()
 				end
 			end
 		end
+	end
+	if not foundFruitID then
+		rareFruit.exists = false
 	end
 	for k,v in pairs(badFruits) do
 		trace(k.." is a bad fruit!")
@@ -278,7 +286,7 @@ function make_move()
 	local plyY = get_my_y()
 	
 	-- Non return functions
-	GetRareFruit() -- Checks if rare fruit exists, if yes then add it to table
+	 
 	CheckForEvil() -- Bad fruit busters. (Don't track or eat fruit that will waste our time)
 	
 	-- Check if we have a fruit under us, if yes, then check if its worth picking up
@@ -297,5 +305,5 @@ function make_move()
 end
 
 function new_game()
-
+	GetRareFruit() -- Checks if rare fruit exists, if yes then add it to table
 end
