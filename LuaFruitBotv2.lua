@@ -69,19 +69,20 @@ function RankFruitTable( fruits )
 	local amountToWin = AmountsToWin()
 	for k,v in pairs(fruitTable) do
 		v.rank = 0
+		v.log = ""
 		plyDistance = Distance(plyX, v.x, plyY, v.y )
 		oppDistance = Distance(oppX, v.x, oppY, v.y )
 		plyNeeded = AmountNeededToWin( v.item, get_my_item_count(v.item) )
 		oppNeeded = AmountNeededToWin( v.item, get_opponent_item_count(v.item) )
-		if plyDistance < oppDistance then v.rank = v.rank + 10 end
-		if plyNeeded < oppNeeded then v.rank = v.rank + 10 end
-		if plyNeeded == 1 then v.rank = v.rank + 10 end
+		if plyDistance < oppDistance then v.log = v.log.."Adding 10 because plyDistance < oppDistance "); v.rank = v.rank + 10 end
+		if plyNeeded < oppNeeded then v.log = v.log .. "Adding 10 because plyNeeded < oppNeeded "; v.rank = v.rank + 10 end
+		if plyNeeded == 1 then v.log = v.log.."Adding 10 because only need one more to win it "; v.rank = v.rank + 10 end
 		for dis = 1, 10 do
-			if plyDistance <= dis then v.rank = v.rank + 3 end
+			if plyDistance <= dis then v.log = v.log.."Adding 3 because distance is less then "..dis.." "; v.rank = v.rank + 3 end
 		end
-		if rareFruit.exists then if v.item == rareFruit.item then v.rank = v.rank + 20 end end 
-		if plyNeeded == 1 and plyScore + 1 >= amountToWin then v.rank = v.rank + 50 end
-		if oppNeeded == 1 and oppScore + 1 >= amountToWin then v.rank = v.rank + 50 end
+		if rareFruit.exists then if v.item == rareFruit.item then v.log = v.log.."Adding 20 because rare fruit bonus "; v.rank = v.rank + 20 end end 
+		if plyNeeded == 1 and plyScore + 1 >= amountToWin then v.log = v.log .. "Adding 50 because last fruit to win"; v.rank = v.rank + 50 end
+		if oppNeeded == 1 and oppScore + 1 >= amountToWin then v.log = v.log .. "Adding 50 because last fruit to win for opponent"; v.rank = v.rank + 50 end
 	end
 	return fruitTable
 end
@@ -167,6 +168,7 @@ function BestFruit()
 	local highestRank = { rank = 0, item = 0, x = 0, y = 0 }
 	for k,v in pairs( rankedFruits ) do
 		trace(v.item.." at " .. v.x .. ":".. v.y .." has a rank of ".. v.rank)
+		trace(v.item, v.log)
 		if v.rank > highestRank.rank then
 			highestRank.rank = v.rank
 			highestRank.item = v.item
