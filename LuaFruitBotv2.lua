@@ -20,6 +20,10 @@ function Distance( x1, x2, y1, y2 )
 	return math.abs(x1 - x2) + math.abs(y1 - y2)
 end
 
+function FruitsInRadius( x, y, width, height )
+
+end
+
 function AmountsToWin()
 	local amount = get_number_of_item_types()
 	if amount % 2 == 0 then
@@ -183,11 +187,12 @@ function WorthGetting( item )
 	local plyY = get_my_y()
 	local oppX = get_opponent_x()
 	local oppY = get_opponent_x()
+	local closest = ClosestFruit()
 	
 	if badFruits[item] then return false end -- If it's a bad fruit, don't bother doing any checks.
 	if item == rareFruit.item then rareFruit.exists = false; rareFruit.tracking = false; return TAKE end 
 	trace("Tracking rare fruit: "..tostring(rareFruit.tracking))
-	if rareFruit.tracking then
+	if rareFruit.tracking or closest.item == rareFruit.item then
 		-- If we are tracking the rare fruit, we better have a good excuse for picking up an item.
 		local plyDistance = Distance(plyX, rareFruit.x, plyY, rareFruit.y)
 		local oppDistance = Distance(oppX, rareFruit.x, oppY, rareFruit.y)
@@ -269,6 +274,7 @@ function CheckForEvil()
 	end
 	if not foundFruitID then
 		rareFruit.exists = false
+		rareFruit.tracking = false
 	end
 	for k,v in pairs(badFruits) do
 		trace(k.." is a bad fruit!")
